@@ -8,6 +8,7 @@ const initialState = {
 const loginReducer = (state = initialState, action) => {
   switch (action.type) {
     case Login.LOGIN:
+      return Object.assign({}, state, { isLogged: true, user: action.payload })
       return {
         ...state,
         isLogged: true,

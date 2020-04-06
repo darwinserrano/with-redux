@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { login } from './loginActions';
+import { login, api, loginAction, logoutAction, singIn, singOut } from './loginActions';
 
 export class StartSession extends Component {
   static propTypes = {
@@ -10,15 +10,25 @@ export class StartSession extends Component {
     isLogged: PropTypes.bool
   }
 
+  handleClickSingIn = () => {
+    this.props.dispatch(singIn())
+  }
+
+  handleClickSingOut = () => {
+    this.props.dispatch(singOut())
+  }
+
   render() {
-    const { singIn, singOut, isLogged } = this.props
+    const { isLogged } = this.props
+
+    console.log('this.props', this.props)
 
     return (
       <div>
         {!isLogged
-          ? <button onClick={singIn}>Iniciar Session</button>
+          ? <button onClick={this.handleClickSingIn}>Iniciar Session</button>
           : <React.Fragment>
-            Está logueado <button onClick={singOut}>Cerrar Session</button>
+            Está logueado <button onClick={this.handleClickSingOut}>Cerrar Session</button>
           </React.Fragment>}
       </div>
     )
@@ -29,6 +39,21 @@ const mapStateToProps = (state) => ({
   isLogged: state.login.isLogged
 })
 
-const mapDispatchToProps = login
+// const mapDispatchToProps = {
+//   singIn: singIn,
+//   singOut: singOut
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(StartSession)
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     singIn: () => {
+//       dispatch(loginAction("Boruska"))
+//       dispatch(logoutAction())
+//     },
+//     singOut: () => {
+//       dispatch(logoutAction())
+//     }
+//   }
+// }
+
+export default connect(mapStateToProps)(StartSession)
